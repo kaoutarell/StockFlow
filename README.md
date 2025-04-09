@@ -9,13 +9,8 @@ _(Note: This project is currently **in progress** and will be deployed on **Verc
 First, run the development server:
 
 ```bash
+npm i
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
 Open http://localhost:3000 in your browser to view the application.
@@ -26,7 +21,9 @@ Once completed, StockFlow will be deployed on **Vercel**, the optimal platform f
 
 ## Tags
 
-<span style="display: inline-block; padding: 0.25em 0.5em; margin: 0.1em; font-size: 0.85em; font-weight: bold; line-height: 1; color: #fff; background-color: #4285F4; border-radius: 3px;">UI/UX Class</span><span style="background-color: #FF5733; color: white; padding: 3px 8px; border-radius: 4px;">In Progress</span><span style="background-color: #4CAF50; color: white; padding: 3px 8px; border-radius: 4px;">SOEN 357</span>
+![UI/UX Class](https://img.shields.io/badge/UI%2FUX%20Class-4285F4?style=for-the-badge&logo=figma&logoColor=white&color=4285F4)
+![In Progress](https://img.shields.io/badge/In_Progress-FF5733?style=for-the-badge&color=FF5733)
+![SOEN 357](https://img.shields.io/badge/SOEN_357-4CAF50?style=for-the-badge&color=4CAF50)
 
 ## Team Members
 
