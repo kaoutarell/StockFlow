@@ -12,14 +12,11 @@ export const Dashboard = ({ selectedRoute }: { selectedRoute: string }) => {
 
   return (
     <div className="bg-white rounded-lg pb-4 shadow">
-      <TopBar user={user} /> {/* Pass the user object to TopBar */}
+      <TopBar user={user} />
       {selectedRoute === "Analytics" ? (
-        <Grid isManager={isManager} /> // Render Grid for Analytics route
+        <Grid isManager={isManager} /> //Analytics for manager only
       ) : (
-        <div>
-          {" "}
-          {/* You can render other content for different routes if necessary */}{" "}
-        </div>
+        <div> {/* Features displayed based on the access permission */} </div>
       )}
     </div>
   );

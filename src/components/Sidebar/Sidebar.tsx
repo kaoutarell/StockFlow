@@ -13,7 +13,7 @@ export const Sidebar = ({
     <div>
       <div className="overflow-y-scroll sticky top-4 h-[calc(100vh-32px-48px)]">
         <AccountToggle />
-        {/* <Search /> */}
+        {/* <Search /> -- not really needed, but will be kept until deployment just in case  */}
         <RouteSelect onRouteChange={onRouteChange} />
       </div>
 

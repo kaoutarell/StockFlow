@@ -4,11 +4,10 @@ import {
   FiDollarSign,
   FiHome,
   FiPieChart,
-  FiPaperclip,
   FiBox,
   FiLogOut,
 } from "react-icons/fi";
-import { useRouter } from "next/navigation"; // Import useRouter
+import { useRouter } from "next/navigation";
 
 export const RouteSelect = ({
   onRouteChange,
@@ -16,19 +15,16 @@ export const RouteSelect = ({
   onRouteChange: (route: string) => void;
 }) => {
   const [selectedRoute, setSelectedRoute] = useState("Inventory");
-  const router = useRouter(); // Initialize the router for redirection
+  const router = useRouter(); // Initialize the router for redirection --
 
   const handleRouteChange = (route: string) => {
-    setSelectedRoute(route); // Set the new selected route
-    onRouteChange(route); // Notify the parent component
+    setSelectedRoute(route);
+    onRouteChange(route);
 
     // Handle logout action
     if (route === "Log out") {
-      // Clear the user session
       sessionStorage.clear();
-
-      // Redirect to the login page
-      router.push("/login"); // Redirect to the login page after logging out
+      router.push("/login"); // destroy session and go to /
     }
   };
 
