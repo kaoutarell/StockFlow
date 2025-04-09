@@ -27,5 +27,5 @@ Once completed, StockFlow will be deployed on **Vercel**, the optimal platform f
 
 ## Team Members
 
-Kaoutar El Azzab | 40236580
-Omar Hammodan | 40246598
+- Kaoutar El Azzab | 40236580
+- Omar Hammodan | 40246598
