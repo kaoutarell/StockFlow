@@ -21,9 +21,9 @@ Once completed, StockFlow will be deployed on **Vercel**, the optimal platform f
 
 ## Tags
 
-![UI/UX Class](https://img.shields.io/badge/UI%2FUX%20Class-4285F4?style=for-the-badge&logo=figma&logoColor=white&color=4285F4)
-![In Progress](https://img.shields.io/badge/In_Progress-FF5733?style=for-the-badge&color=FF5733)
-![SOEN 357](https://img.shields.io/badge/SOEN_357-4CAF50?style=for-the-badge&color=4CAF50)
+![UI/UX Class](https://img.shields.io/badge/UI%2FUX%20Class-4285F4?style=for-the-badge&logo=figma&logoColor=white&color=311432)
+![In Progress](https://img.shields.io/badge/In_Progress-FF5733?style=for-the-badge&color=702963)
+![SOEN 357](https://img.shields.io/badge/SOEN_357-4CAF50?style=for-the-badge&color=784B84)
 
 ## Team Members
 
