@@ -2,6 +2,7 @@ import React from "react";
 import { TopBar } from "./TopBar";
 import { Grid } from "./Grid";
 import { AisleManagement } from "../StoreLayout/AisleManagement";
+import { CreateItemForm } from "../InventoryManagement/CreateItemForm";
 
 export const Dashboard = ({ selectedRoute }: { selectedRoute: string }) => {
   const user =
@@ -21,6 +22,9 @@ export const Dashboard = ({ selectedRoute }: { selectedRoute: string }) => {
       )}
       {selectedRoute === "Store Layout" && (
         <AisleManagement/>
+      )}
+      {selectedRoute === "Inventory" && (
+        <CreateItemForm/>
       )}
     </div>
   );
