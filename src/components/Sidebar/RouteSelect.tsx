@@ -36,17 +36,19 @@ export const RouteSelect = ({
         title="Inventory"
         onClick={() => handleRouteChange("Inventory")}
       />
-      <Route
+      {/* <Route
         Icon={FiHome}
         selected={selectedRoute === "Store Layout"}
         title="Store Layout"
         onClick={() => handleRouteChange("Store Layout")}
-      />
+      /> */}
       <Route
         Icon={FiBox}
         selected={selectedRoute === "All products"}
         title="All products"
-        onClick={() => handleRouteChange("All products")}
+        onClick={() => {
+          handleRouteChange("All products");
+        }}
       />
       <Route
         Icon={FiPieChart}

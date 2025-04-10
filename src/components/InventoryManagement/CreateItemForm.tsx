@@ -1,303 +1,138 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 
-interface Aisle {
-  _id: string;
-  name: string;
-  bays: Bay[];
+interface CreateItemFormProps {
+  onClose: () => void;
 }
 
-interface Bay {
-  _id: string;
-  shelves: Shelf[];
-}
+export const CreateItemForm: React.FC<CreateItemFormProps> = ({ onClose }) => {
+  const [formData, setFormData] = useState({
+    productName: "",
+    productDescription: "",
+    price: "",
+    stock: "",
+  });
+  const [isModalOpen, setIsModalOpen] = useState(true);
 
-interface Shelf {
-  _id: string;
-}
-
-export const CreateItemForm = () => {
-  const [aisles, setAisles] = useState<Aisle[]>([]);
-  const [selectedAisle, setSelectedAisle] = useState<string | null>(null);
-  const [selectedBayIndex, setSelectedBayIndex] = useState<number | null>(null);
-  const [selectedShelfIndex, setSelectedShelfIndex] = useState<number | null>(null);
-  const [sku, setSku] = useState("");
-  const [name, setName] = useState("");
-  const [price, setPrice] = useState<number>(0);
-  const [description, setDescription] = useState("");
-  const [quantity, setQuantity] = useState<number>(0);
-  const [imageUrl, setImageUrl] = useState("");
-  const [skuError, setSkuError] = useState<string | null>(null);
-  const [isLoading, setIsLoading] = useState<boolean>(false);
-
-  useEffect(() => {
-    // Fetch aisle data from the database
-    const fetchAisles = async () => {
-      try {
-        const response = await fetch("/api/aisles");
-        const data = await response.json();
-        setAisles(data);
-      } catch (error) {
-        console.error("Error fetching aisles:", error);
-      }
-    };
-
-    fetchAisles();
-  }, []);
-
-  const handleAisleChange = (aisleId: string) => {
-    setSelectedAisle(aisleId);
-    setSelectedBayIndex(null); // Reset bay and shelf when aisle changes
-    setSelectedShelfIndex(null);
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setFormData({
+      ...formData,
+      [name]: value,
+    });
   };
 
-  const handleBayChange = (bayIndex: number) => {
-    setSelectedBayIndex(bayIndex);
-    setSelectedShelfIndex(null); // Reset shelf when bay changes
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    // Handle form submission logic here
+    console.log("Form Submitted", formData);
+    onClose(); // Close the modal after submitting the form
   };
 
-  const checkSkuExists = async (sku: string) => {
-    const response = await fetch(`/api/items/search?sku=${sku}`);
-    const data = await response.json();
-    return data.length > 0;
+  const closeModal = () => {
+    setIsModalOpen(false);
+    onClose(); // Trigger the parent onClose function
   };
 
-  const handleSubmit = async (event: React.FormEvent) => {
-    event.preventDefault();
-    setSkuError(null); // Reset SKU error message
-
-    // Check if SKU is already taken
-    const skuExists = await checkSkuExists(sku);
-    if (skuExists) {
-      setSkuError("SKU already exists.");
-      return;
-    }
-
-    // Prepare item data for submission
-    const newItem = {
-      sku,
-      name,
-      price,
-      description,
-      aisleName: aisles.find((aisle) => aisle._id === selectedAisle)?.name,
-      bayIndex: selectedBayIndex,
-      shelfIndex: selectedShelfIndex,
-      quantity,
-      imageUrl,
-    };
-
-    setIsLoading(true);
-    try {
-      const response = await fetch("/api/items", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(newItem),
-      });
-
-      if (response.ok) {
-        alert("Item created successfully!");
-        // Reset form after successful submission
-        setSku("");
-        setName("");
-        setPrice(0);
-        setDescription("");
-        setQuantity(0);
-        setImageUrl("");
-        setSelectedAisle(null);
-        setSelectedBayIndex(null);
-        setSelectedShelfIndex(null);
-      } else {
-        alert("Failed to create item.");
-      }
-    } catch (error) {
-      console.error("Error creating item:", error);
-      alert("An error occurred while creating the item.");
-    } finally {
-      setIsLoading(false);
-    }
-  };
+  if (!isModalOpen) return null; // Don't render anything if the modal is closed
 
   return (
-    <div className="form-container">
-      <h2>Create New Item</h2>
-      <form onSubmit={handleSubmit}>
-        <div className="form-group">
-          <label>SKU</label>
-          <input
-            type="text"
-            value={sku}
-            onChange={(e) => setSku(e.target.value)}
-            required
-          />
-          {skuError && <p className="error-text">{skuError}</p>}
-        </div>
-
-        <div className="form-group">
-          <label>Name</label>
-          <input
-            type="text"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            required
-          />
-        </div>
-
-        <div className="form-group">
-          <label>Price</label>
-          <input
-            type="number"
-            value={price}
-            onChange={(e) => setPrice(Number(e.target.value))}
-            required
-          />
-        </div>
-
-        <div className="form-group">
-          <label>Description</label>
-          <textarea
-            value={description}
-            onChange={(e) => setDescription(e.target.value)}
-            required
-          />
-        </div>
-
-        <div className="form-group">
-          <label>Quantity</label>
-          <input
-            type="number"
-            value={quantity}
-            onChange={(e) => setQuantity(Number(e.target.value))}
-            required
-          />
-        </div>
-
-        <div className="form-group">
-          <label>Image URL</label>
-          <input
-            type="text"
-            value={imageUrl}
-            onChange={(e) => setImageUrl(e.target.value)}
-            required
-          />
-        </div>
-
-        <div className="form-group">
-          <label>Aisle</label>
-          <select
-            value={selectedAisle || ""}
-            onChange={(e) => handleAisleChange(e.target.value)}
-            required
-          >
-            <option value="" disabled>Select Aisle</option>
-            {aisles.map((aisle) => (
-              <option key={aisle._id} value={aisle._id}>
-                {aisle.name}
-              </option>
-            ))}
-          </select>
-        </div>
-
-        {selectedAisle && (
-          <div className="form-group">
-            <label>Bay</label>
-            <select
-              value={selectedBayIndex !== null ? selectedBayIndex : ""}
-              onChange={(e) => handleBayChange(Number(e.target.value))}
-              required
-            >
-              <option value="" disabled>Select Bay</option>
-              {aisles
-                .find((aisle) => aisle._id === selectedAisle)
-                ?.bays.map((bay, index) => (
-                  <option key={bay._id} value={index}>
-                    Bay {index + 1}
-                  </option>
-                ))}
-            </select>
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-40 backdrop-blur-sm">
+      <div className="bg-white w-[600px] h-auto rounded-lg shadow-2xl p-8 relative animate-fade-in flex flex-col">
+        <button
+          onClick={closeModal}
+          className="absolute top-4 right-4 text-gray-500 hover:text-gray-700 text-xl"
+        >
+          ✕
+        </button>
+        <h2 className="text-2xl font-semibold mb-6 text-center text-[#6B21A8]">
+          Create Product
+        </h2>
+        <form onSubmit={handleSubmit} className="space-y-4">
+          <div className="grid grid-cols-2 gap-4">
+            {/* Inputs in two columns */}
+            <div>
+              <label
+                htmlFor="productName"
+                className="block text-sm font-medium text-gray-700"
+              >
+                Product Name
+              </label>
+              <input
+                type="text"
+                id="productName"
+                name="productName"
+                value={formData.productName}
+                onChange={handleChange}
+                className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-[#6B21A8] focus:border-[#6B21A8] sm:text-sm"
+              />
+            </div>
+            <div>
+              <label
+                htmlFor="productDescription"
+                className="block text-sm font-medium text-gray-700"
+              >
+                Product Description
+              </label>
+              <input
+                type="text"
+                id="productDescription"
+                name="productDescription"
+                value={formData.productDescription}
+                onChange={handleChange}
+                className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-[#6B21A8] focus:border-[#6B21A8] sm:text-sm"
+              />
+            </div>
+            <div>
+              <label
+                htmlFor="price"
+                className="block text-sm font-medium text-gray-700"
+              >
+                Price
+              </label>
+              <input
+                type="number"
+                id="price"
+                name="price"
+                value={formData.price}
+                onChange={handleChange}
+                className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-[#6B21A8] focus:border-[#6B21A8] sm:text-sm"
+              />
+            </div>
+            <div>
+              <label
+                htmlFor="stock"
+                className="block text-sm font-medium text-gray-700"
+              >
+                Stock
+              </label>
+              <input
+                type="number"
+                id="stock"
+                name="stock"
+                value={formData.stock}
+                onChange={handleChange}
+                className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-[#6B21A8] focus:border-[#6B21A8] sm:text-sm"
+              />
+            </div>
           </div>
-        )}
 
-        {selectedBayIndex !== null && (
-          <div className="form-group">
-            <label>Shelf</label>
-            <select
-              value={selectedShelfIndex !== null ? selectedShelfIndex : ""}
-              onChange={(e) => setSelectedShelfIndex(Number(e.target.value))}
-              required
+          <div className="flex justify-end mt-4">
+            <button
+              type="button"
+              onClick={closeModal}
+              className="px-6 py-3 bg-gray-500 text-white rounded-full hover:bg-gray-600 transition-all duration-200 shadow-md"
             >
-              <option value="" disabled>Select Shelf</option>
-              {aisles
-                .find((aisle) => aisle._id === selectedAisle)
-                ?.bays[selectedBayIndex]
-                ?.shelves.map((shelf, index) => (
-                  <option key={shelf._id} value={index}>
-                    Shelf {index + 1}
-                  </option>
-                ))}
-            </select>
+              Cancel
+            </button>
+            <button
+              type="submit"
+              className="ml-4 px-6 py-3 bg-[#6B21A8] text-white rounded-full hover:bg-[#9D4EDD] transition-all duration-200 shadow-md"
+            >
+              Submit
+            </button>
           </div>
-        )}
-
-        <div className="form-group">
-          <button type="submit" disabled={isLoading}>
-            {isLoading ? "Submitting..." : "Create Item"}
-          </button>
-        </div>
-      </form>
-
-      <style jsx>{`
-        .form-container {
-          max-width: 500px;
-          margin: 0 auto;
-          padding: 20px;
-          background-color: #f9f9f9;
-          border-radius: 8px;
-          box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
-        h2 {
-          text-align: center;
-        }
-        .form-group {
-          margin-bottom: 15px;
-        }
-        label {
-          display: block;
-          font-weight: bold;
-        }
-        input,
-        select,
-        textarea {
-          width: 100%;
-          padding: 8px;
-          margin-top: 5px;
-          border-radius: 4px;
-          border: 1px solid #ddd;
-        }
-        textarea {
-          height: 100px;
-        }
-        .error-text {
-          color: red;
-          font-size: 12px;
-        }
-        button {
-          width: 100%;
-          padding: 10px;
-          background-color: #007bff;
-          color: white;
-          border: none;
-          border-radius: 5px;
-          cursor: pointer;
-        }
-        button:disabled {
-          background-color: #cccccc;
-          cursor: not-allowed;
-        }
-        button:hover:not(:disabled) {
-          background-color: #0056b3;
-        }
-      `}</style>
+        </form>
+      </div>
     </div>
   );
 };

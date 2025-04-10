@@ -1,8 +1,9 @@
 import React from "react";
 import { TopBar } from "./TopBar";
 import { Grid } from "./Grid";
-import { AisleManagement } from "../StoreLayout/AisleManagement";
-import { CreateItemForm } from "../InventoryManagement/CreateItemForm";
+//import { AisleManagement } from "../StoreLayout/AisleManagement";
+import AllProductsPage from "../AllProducts/page";
+import InventoryPage from "../Inventory/page";
 
 export const Dashboard = ({ selectedRoute }: { selectedRoute: string }) => {
   const user =
@@ -15,17 +16,11 @@ export const Dashboard = ({ selectedRoute }: { selectedRoute: string }) => {
   return (
     <div className="bg-white rounded-lg pb-4 shadow">
       <TopBar user={user} />
-      {selectedRoute === "Analytics" ? (
-        <Grid isManager={isManager} /> //Analytics for manager only
-      ) : (
-        <div> {/* Features displayed based on the access permission */} </div>
-      )}
-      {selectedRoute === "Store Layout" && (
-        <AisleManagement/>
-      )}
-      {selectedRoute === "Inventory" && (
-        <CreateItemForm/>
-      )}
+      {selectedRoute === "Analytics" && <Grid isManager={isManager} />}
+      {/* {selectedRoute === "Store Layout" && <AisleManagement />} */}
+      {selectedRoute === "Inventory" && <InventoryPage isManager={isManager} />}
+      {selectedRoute === "All products" && <AllProductsPage />}
+      {selectedRoute === "Finance" && <div>Finance Page</div>}
     </div>
   );
 };
