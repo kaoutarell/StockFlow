@@ -21,6 +21,6 @@
       "@/*": ["./src/*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "src/app/api/aisles/[aisleId]/bays/[baysId]/shelves/[shelfId]/route.js", "src/app/api/aisles/[aisleId]/bays/[baysId]/shelves/route.js", "src/app/api/aisles/[aisleId]/bays/[baysId]/route.js", "src/app/api/aisles/[aisleId]/bays/route.js", "src/app/api/aisles/[aisleId]/route.js", "src/app/api/aisles/route.js", "src/lib/mongodb.js"],
   "exclude": ["node_modules"]
 }
