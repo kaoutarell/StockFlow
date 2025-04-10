@@ -1,6 +1,7 @@
 import React from "react";
 import { TopBar } from "./TopBar";
 import { Grid } from "./Grid";
+import { AisleManagement } from "../StoreLayout/AisleManagement";
 
 export const Dashboard = ({ selectedRoute }: { selectedRoute: string }) => {
   const user =
@@ -17,6 +18,9 @@ export const Dashboard = ({ selectedRoute }: { selectedRoute: string }) => {
         <Grid isManager={isManager} /> //Analytics for manager only
       ) : (
         <div> {/* Features displayed based on the access permission */} </div>
+      )}
+      {selectedRoute === "Store Layout" && (
+        <AisleManagement/>
       )}
     </div>
   );
