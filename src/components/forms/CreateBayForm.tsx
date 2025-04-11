@@ -9,34 +9,23 @@ export const CreateBayForm = ({ onClose }: { onClose: () => void }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const handleSubmit = async (event: React.FormEvent) => {
+  // Client-side form submission logic
+  const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
     setIsLoading(true);
     setError(null);
 
-    try {
-      const response = await fetch("/api/bays", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ name }),
-      });
-
-      if (response.ok) {
-        alert("Bay created successfully!");
-        setName("");
-        onClose();
+    // Simulate bay creation
+    setTimeout(() => {
+      if (name.trim() === "") {
+        setError("Bay name cannot be empty.");
       } else {
-        const data = await response.json();
-        setError(data.message || "Failed to create bay.");
+        alert("Bay created successfully!");
+        setName(""); // Clear input after successful creation
+        onClose(); // Close the modal
       }
-    } catch (err) {
-      console.error("Error creating bay:", err);
-      setError("An error occurred while creating the bay.");
-    } finally {
       setIsLoading(false);
-    }
+    }, 1000); // Simulate a delay, like an API request
   };
 
   return (
@@ -55,9 +44,11 @@ export const CreateBayForm = ({ onClose }: { onClose: () => void }) => {
           >
             <FiX size={20} />
           </button>
+
           <Dialog.Title className="text-xl font-bold mb-4 text-[#6B21A8]">
             Create New Bay
           </Dialog.Title>
+
           <form onSubmit={handleSubmit} className="space-y-6">
             <div className="flex flex-col">
               <label className="font-semibold text-gray-700">Bay Name</label>

@@ -9,34 +9,23 @@ export const CreateAisleForm = ({ onClose }: { onClose: () => void }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const handleSubmit = async (event: React.FormEvent) => {
+  // Client-side form submission logic
+  const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
     setIsLoading(true);
     setError(null);
 
-    try {
-      const response = await fetch("/api/aisles", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ name }),
-      });
-
-      if (response.ok) {
-        alert("Aisle created successfully!");
-        setName("");
-        onClose();
+    // Simulate aisle creation
+    setTimeout(() => {
+      if (name.trim() === "") {
+        setError("Aisle name cannot be empty.");
       } else {
-        const data = await response.json();
-        setError(data.message || "Failed to create aisle.");
+        alert("Aisle created successfully!");
+        setName(""); // Clear input after successful creation
+        onClose(); // Close the modal
       }
-    } catch (err) {
-      console.error("Error creating aisle:", err);
-      setError("An error occurred while creating the aisle.");
-    } finally {
       setIsLoading(false);
-    }
+    }, 1000); // Simulate a delay, like an API request
   };
 
   return (

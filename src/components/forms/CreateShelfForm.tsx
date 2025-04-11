@@ -9,34 +9,38 @@ export const CreateShelfForm = ({ onClose }: { onClose: () => void }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const handleSubmit = async (event: React.FormEvent) => {
+  const predefinedShelves = [
+    "Shelf 1",
+    "Shelf 2",
+    "Shelf 3",
+    "Shelf 4",
+    "Shelf 5",
+    "Shelf 6",
+    "Shelf 7",
+    "Shelf 8",
+    "Shelf 9",
+    "Shelf 10",
+  ];
+
+  const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
     setIsLoading(true);
     setError(null);
 
-    try {
-      const response = await fetch("/api/shelves", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ name }),
-      });
-
-      if (response.ok) {
-        alert("Shelf created successfully!");
-        setName("");
-        onClose();
-      } else {
-        const data = await response.json();
-        setError(data.message || "Failed to create shelf.");
-      }
-    } catch (err) {
-      console.error("Error creating shelf:", err);
-      setError("An error occurred while creating the shelf.");
-    } finally {
+    // Check if shelf already exists in predefined list
+    if (predefinedShelves.includes(name)) {
+      setError("Shelf name already exists.");
       setIsLoading(false);
+      return;
     }
+
+    // Simulate successful shelf creation
+    setTimeout(() => {
+      alert("Shelf created successfully!");
+      setName(""); // Reset shelf name input
+      onClose(); // Close the form dialog
+      setIsLoading(false);
+    }, 1000); // Simulate loading time
   };
 
   return (

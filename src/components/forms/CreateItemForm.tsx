@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Dialog } from "@headlessui/react";
 import { FiPlus, FiX } from "react-icons/fi";
 
@@ -36,7 +36,22 @@ export const AllProductsWithCreateItem = () => {
 };
 
 export const CreateItemForm = ({ onClose }: { onClose: () => void }) => {
-  const [aisles, setAisles] = useState<Aisle[]>([]);
+  // Predefined list of aisles
+  const predefinedAisles: Aisle[] = Array.from({ length: 20 }, (_, index) => ({
+    _id: `aisle-${index + 1}`,
+    name: `Aisle ${index + 1}`,
+    bays: [
+      {
+        _id: `bay-${index + 1}-1`,
+        shelves: [
+          { _id: `shelf-${index + 1}-1` },
+          { _id: `shelf-${index + 1}-2` },
+        ],
+      },
+    ],
+  }));
+
+  const [aisles, setAisles] = useState<Aisle[]>(predefinedAisles);
   const [selectedAisle, setSelectedAisle] = useState<string | null>(null);
   const [selectedBayIndex, setSelectedBayIndex] = useState<number | null>(null);
   const [selectedShelfIndex, setSelectedShelfIndex] = useState<number | null>(
@@ -47,22 +62,8 @@ export const CreateItemForm = ({ onClose }: { onClose: () => void }) => {
   const [price, setPrice] = useState<number>(0);
   const [description, setDescription] = useState("");
   const [quantity, setQuantity] = useState<number>(0);
-  const [imageUrl, setImageUrl] = useState("");
   const [skuError, setSkuError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
-
-  useEffect(() => {
-    const fetchAisles = async () => {
-      try {
-        const response = await fetch("/api/aisles");
-        const data = await response.json();
-        setAisles(data);
-      } catch (error) {
-        console.error("Error fetching aisles:", error);
-      }
-    };
-    fetchAisles();
-  }, []);
 
   const handleAisleChange = (aisleId: string) => {
     setSelectedAisle(aisleId);
@@ -75,16 +76,15 @@ export const CreateItemForm = ({ onClose }: { onClose: () => void }) => {
     setSelectedShelfIndex(null);
   };
 
-  const checkSkuExists = async (sku: string) => {
-    const response = await fetch(`/api/items/search?sku=${sku}`);
-    const data = await response.json();
-    return data.length > 0;
+  const checkSkuExists = (sku: string) => {
+    // Simulate SKU existence check with a predefined list or static logic
+    return false; // For simplicity, always returns false in this case
   };
 
-  const handleSubmit = async (event: React.FormEvent) => {
+  const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
     setSkuError(null);
-    const skuExists = await checkSkuExists(sku);
+    const skuExists = checkSkuExists(sku);
     if (skuExists) {
       setSkuError("SKU already exists.");
       return;
@@ -99,38 +99,23 @@ export const CreateItemForm = ({ onClose }: { onClose: () => void }) => {
       bayIndex: selectedBayIndex,
       shelfIndex: selectedShelfIndex,
       quantity,
-      imageUrl,
     };
 
     setIsLoading(true);
-    try {
-      const response = await fetch("/api/items", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(newItem),
-      });
-
-      if (response.ok) {
-        alert("Item created successfully!");
-        setSku("");
-        setName("");
-        setPrice(0);
-        setDescription("");
-        setQuantity(0);
-        setImageUrl("");
-        setSelectedAisle(null);
-        setSelectedBayIndex(null);
-        setSelectedShelfIndex(null);
-        onClose();
-      } else {
-        alert("Failed to create item.");
-      }
-    } catch (error) {
-      console.error("Error creating item:", error);
-      alert("An error occurred while creating the item.");
-    } finally {
+    setTimeout(() => {
+      // Simulate successful item creation
+      alert("Item created successfully!");
+      setSku("");
+      setName("");
+      setPrice(0);
+      setDescription("");
+      setQuantity(0);
+      setSelectedAisle(null);
+      setSelectedBayIndex(null);
+      setSelectedShelfIndex(null);
+      onClose();
       setIsLoading(false);
-    }
+    }, 1000); // Simulate loading delay
   };
 
   return (
@@ -200,18 +185,6 @@ export const CreateItemForm = ({ onClose }: { onClose: () => void }) => {
                   type="number"
                   value={quantity}
                   onChange={(e) => setQuantity(Number(e.target.value))}
-                  className="p-3 border border-[#6B21A8] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#6B21A8]"
-                  required
-                />
-              </div>
-
-              {/* Image URL */}
-              <div className="flex flex-col">
-                <label className="font-semibold text-gray-700">Image URL</label>
-                <input
-                  type="text"
-                  value={imageUrl}
-                  onChange={(e) => setImageUrl(e.target.value)}
                   className="p-3 border border-[#6B21A8] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#6B21A8]"
                   required
                 />
