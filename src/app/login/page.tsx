@@ -3,6 +3,7 @@
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 
+// Mock users with different roles (manager and employee)
 const mockUsers = [
   { username: "manager", password: "manager123", role: "manager" },
   { username: "employee", password: "employee123", role: "employee" },
@@ -17,9 +18,10 @@ const LoginPage = () => {
     const user = mockUsers.find(
       (user) => user.username === username && user.password === password
     );
+
     if (user) {
-      sessionStorage.setItem("user", JSON.stringify(user));
-      router.push("/"); // Redirect to the main page after successful login
+      sessionStorage.setItem("user", JSON.stringify(user)); // Store user info in session
+      router.push("/"); // Redirect to the dashboard
     } else {
       alert("Invalid credentials");
     }
@@ -32,14 +34,13 @@ const LoginPage = () => {
         {/* Left: Login form */}
         <div className="flex flex-col justify-center">
           <div className="sm:mx-auto sm:w-full sm:max-w-sm">
+            {/* Updated Image */}
             <img
               className="mx-auto h-auto w-auto"
               src="/StockFlow.png"
               alt="Your Company"
+              style={{ imageRendering: "auto" }} // Added this for better rendering
             />
-            {/* <h2 className="mt-6 text-center text-3xl font-bold text-gray-900">
-              Sign in to <span className="text-indigo-700">StockFlow</span>
-            </h2> */}
           </div>
 
           <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-sm">

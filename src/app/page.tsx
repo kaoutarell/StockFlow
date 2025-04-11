@@ -8,7 +8,7 @@ import { Sidebar } from "@/components/Sidebar/Sidebar";
 export default function Home() {
   const [isClient, setIsClient] = useState(false); // Track if we're on the client
   const [user, setUser] = useState<any>(null); // Store user data from sessionStorage
-  const [selectedRoute, setSelectedRoute] = useState("Inventory"); // Track the selected route
+  const [selectedRoute, setSelectedRoute] = useState("All products"); // Default to "All products" for employees
   const router = useRouter();
 
   // This useEffect runs when the component mounts
@@ -18,7 +18,15 @@ export default function Home() {
     // Retrieve user info from sessionStorage
     const storedUser = sessionStorage.getItem("user");
     if (storedUser) {
-      setUser(JSON.parse(storedUser)); // Parse user data if available
+      const userData = JSON.parse(storedUser); // Parse user data if available
+      setUser(userData); // Update state with user data
+
+      // Set the default route based on user role
+      if (userData?.role === "employee") {
+        setSelectedRoute("All products"); // Default route for employee
+      } else if (userData?.role === "manager") {
+        setSelectedRoute("Inventory"); // Default route for manager
+      }
     } else {
       setUser(null); // No user found in sessionStorage
     }

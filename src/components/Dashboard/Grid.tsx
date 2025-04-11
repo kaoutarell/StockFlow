@@ -14,7 +14,7 @@ export const Grid: React.FC<GridProps> = ({ isManager }) => {
       {isManager && <StatCards />}
       {isManager && <ActivityGraph />}
       {isManager && <EmployerPerformanceRadar />}
-      <RecentTransactions />
+      {isManager && <RecentTransactions />}
     </div>
   );
 };

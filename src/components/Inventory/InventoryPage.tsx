@@ -20,7 +20,7 @@ const InventoryPage: React.FC<InventoryPageProps> = ({ isManager }) => {
       {isManager && <ProductRadar />}
       {isManager && <StockAlerts />}
       {isManager && <StockHistogram />}
-      <RecentInventoryActivity />
+      {isManager && <RecentInventoryActivity />}
     </div>
   );
 };

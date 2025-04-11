@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { IconType } from "react-icons";
 import {
   FiMessageSquare,
@@ -14,54 +14,74 @@ export const RouteSelect = ({
 }: {
   onRouteChange: (route: string) => void;
 }) => {
-  const [selectedRoute, setSelectedRoute] = useState("Inventory");
-  const router = useRouter(); // Initialize the router for redirection --
+  const [selectedRoute, setSelectedRoute] = useState<string | null>(null);
+  const router = useRouter(); // Initialize the router for redirection
 
+  // Retrieve user from sessionStorage
+  const user =
+    typeof window !== "undefined"
+      ? JSON.parse(sessionStorage.getItem("user") || "{}")
+      : null;
+
+  // Set the default route based on the user role
+  useEffect(() => {
+    if (user?.role === "employee") {
+      setSelectedRoute("All products"); // Default for employee
+    } else if (user?.role === "manager") {
+      setSelectedRoute("Inventory"); // Default for manager
+    }
+  }, [user]); // Run when the user role changes
+
+  // If no user or selectedRoute is null, return loading state
+  if (selectedRoute === null) {
+    return <div>Loading...</div>; // Loading state while the user data is being processed
+  }
+
+  // Handle route changes
   const handleRouteChange = (route: string) => {
-    setSelectedRoute(route);
-    onRouteChange(route);
+    setSelectedRoute(route); // Update the selected route
+    onRouteChange(route); // Callback to the parent to update the route
 
     // Handle logout action
     if (route === "Log out") {
       sessionStorage.clear();
-      router.push("/login"); // destroy session and go to /
+      router.push("/login"); // Redirect to login after logout
     }
   };
 
   return (
     <div className="space-y-1">
-      <Route
-        Icon={FiHome}
-        selected={selectedRoute === "Inventory"}
-        title="Inventory"
-        onClick={() => handleRouteChange("Inventory")}
-      />
-      {/* <Route
-        Icon={FiHome}
-        selected={selectedRoute === "Store Layout"}
-        title="Store Layout"
-        onClick={() => handleRouteChange("Store Layout")}
-      /> */}
+      {user?.role === "manager" && (
+        <Route
+          Icon={FiHome}
+          selected={selectedRoute === "Inventory"}
+          title="Inventory"
+          onClick={() => handleRouteChange("Inventory")}
+        />
+      )}
+      {user?.role === "manager" && (
+        <Route
+          Icon={FiPieChart}
+          selected={selectedRoute === "Analytics"}
+          title="Analytics"
+          onClick={() => handleRouteChange("Analytics")}
+        />
+      )}
+      {/* All users can access the "All products" page */}
       <Route
         Icon={FiBox}
         selected={selectedRoute === "All products"}
         title="All products"
-        onClick={() => {
-          handleRouteChange("All products");
-        }}
+        onClick={() => handleRouteChange("All products")}
       />
-      <Route
-        Icon={FiPieChart}
-        selected={selectedRoute === "Analytics"}
-        title="Analytics"
-        onClick={() => handleRouteChange("Analytics")}
-      />
+      {/* Show route for customers feedback */}
       <Route
         Icon={FiMessageSquare}
         selected={selectedRoute === "Customers Feedback"}
         title="Customers Feedback"
         onClick={() => handleRouteChange("Customers Feedback")}
       />
+      {/* Log out route */}
       <Route
         Icon={FiLogOut}
         selected={selectedRoute === "Log out"}
@@ -72,6 +92,7 @@ export const RouteSelect = ({
   );
 };
 
+// Route Component
 const Route = ({
   selected,
   Icon,
