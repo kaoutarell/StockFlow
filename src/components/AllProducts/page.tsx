@@ -3,7 +3,10 @@
 import React, { useState } from "react";
 import { CreateItemForm } from "../forms/CreateItemForm";
 import { CreateAisleForm } from "../forms/CreateAisleForm";
+import { CreateShelfForm } from "../forms/CreateShelfForm";
+import { CreateBayForm } from "../forms/CreateBayForm";
 import { ProductsTable } from "./ProductsTable";
+import { FiPlus } from "react-icons/fi";
 
 const AllProductsPage = () => {
   const [isProductModalOpen, setIsProductModalOpen] = useState(false);
@@ -11,7 +14,6 @@ const AllProductsPage = () => {
   const [isShelfModalOpen, setIsShelfModalOpen] = useState(false);
   const [isBayModalOpen, setIsBayModalOpen] = useState(false);
 
-  // Open and close handlers for each modal
   const openProductModal = () => setIsProductModalOpen(true);
   const closeProductModal = () => setIsProductModalOpen(false);
 
@@ -25,42 +27,36 @@ const AllProductsPage = () => {
   const closeBayModal = () => setIsBayModalOpen(false);
 
   return (
-    <div className="p-6 bg-white rounded-lg shadow">
-      <div className="flex justify-center mb-6 space-x-4">
-        <button
-          onClick={openProductModal}
-          className="px-10 py-5 text-2xl bg-[#6B21A8] text-white rounded-full hover:bg-[#9D4EDD] transition-all duration-200 shadow-md"
-        >
-          + Create New Product
-        </button>
-        <button
-          onClick={openAisleModal}
-          className="px-10 py-5 text-2xl bg-[#6B21A8] text-white rounded-full hover:bg-[#9D4EDD] transition-all duration-200 shadow-md"
-        >
-          + Create New Aisle
-        </button>
-        <button
-          onClick={openShelfModal}
-          className="px-10 py-5 text-2xl bg-[#6B21A8] text-white rounded-full hover:bg-[#9D4EDD] transition-all duration-200 shadow-md"
-        >
-          + Create New Shelf
-        </button>
-        <button
-          onClick={openBayModal}
-          className="px-10 py-5 text-2xl bg-[#6B21A8] text-white rounded-full hover:bg-[#9D4EDD] transition-all duration-200 shadow-md"
-        >
-          + Create New Bay
-        </button>
+    <div className="p-6 bg-white rounded-lg min-h-screen">
+      <div className="flex flex-wrap justify-center gap-6 mb-10">
+        {[
+          { label: "Create New Product", onClick: openProductModal },
+          { label: "Create New Aisle", onClick: openAisleModal },
+          { label: "Create New Shelf", onClick: openShelfModal },
+          { label: "Create New Bay", onClick: openBayModal },
+        ].map((btn, idx) => (
+          <button
+            key={idx}
+            onClick={btn.onClick}
+            className="w-full sm:w-[45%] py-6 px-6 text-xl text-[#333] rounded-xl 
+              bg-[#f3f2fb]
+              shadow-[8px_8px_16px_#bebebe,_-8px_-8px_16px_#ffffff]
+              hover:shadow-[4px_4px_8px_#bebebe,_-4px_-4px_8px_#ffffff]
+              active:shadow-inner
+              transition-all duration-200 ease-in-out
+              flex items-center justify-center gap-3"
+          >
+            <FiPlus className="text-[#6B21A8]" size={26} />
+            {btn.label}
+          </button>
+        ))}
       </div>
 
-      {/* Modals */}
       {isProductModalOpen && <CreateItemForm onClose={closeProductModal} />}
-      {/* Add your aisle, shelf, and bay forms here when ready */}
       {isAisleModalOpen && <CreateAisleForm onClose={closeAisleModal} />}
-      {isShelfModalOpen && <div>Your Shelf Form Here</div>}
-      {isBayModalOpen && <div>Your Bay Form Here</div>}
+      {isShelfModalOpen && <CreateShelfForm onClose={closeShelfModal} />}
+      {isBayModalOpen && <CreateBayForm onClose={closeBayModal} />}
 
-      {/* Furniture Products Table */}
       <ProductsTable />
     </div>
   );

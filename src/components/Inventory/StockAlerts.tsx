@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { FiShoppingCart } from "react-icons/fi";
+import { FiShoppingCart, FiEye } from "react-icons/fi";
 
 interface Product {
   id: string;
@@ -31,7 +31,7 @@ export const StockAlerts = () => {
   const outOfStockProducts = products.filter((p) => p.quantity === 0);
 
   return (
-    <div className="col-span-8 overflow-hidden rounded border border-stone-300">
+    <div className="col-span-8 overflow-hidden rounded border border-stone-300 relative">
       <div className="p-4">
         <h3 className="font-medium">Stock Alerts</h3>
       </div>
@@ -101,6 +101,17 @@ export const StockAlerts = () => {
             </ul>
           </div>
         )}
+      </div>
+
+      {/* View More Link */}
+      <div className="absolute bottom-4 right-4 p-1">
+        <a
+          href="#"
+          className="flex justify-start items-center text-dark-800 hover:text-dark-900"
+        >
+          <FiEye className="mr-2 text-lg" />
+          View More
+        </a>
       </div>
     </div>
   );

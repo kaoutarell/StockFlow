@@ -4,6 +4,7 @@ import { Grid } from "./Grid";
 //import { AisleManagement } from "../StoreLayout/AisleManagement";
 import AllProductsPage from "../AllProducts/page";
 import InventoryPage from "../Inventory/page";
+import { CustomersFeedback } from "../CustomersFeedback/page";
 
 export const Dashboard = ({ selectedRoute }: { selectedRoute: string }) => {
   const user =
@@ -20,7 +21,7 @@ export const Dashboard = ({ selectedRoute }: { selectedRoute: string }) => {
       {/* {selectedRoute === "Store Layout" && <AisleManagement />} */}
       {selectedRoute === "Inventory" && <InventoryPage isManager={isManager} />}
       {selectedRoute === "All products" && <AllProductsPage />}
-      {selectedRoute === "Finance" && <div>Finance Page</div>}
+      {selectedRoute === "Customers Feedback" && <CustomersFeedback />}
     </div>
   );
 };

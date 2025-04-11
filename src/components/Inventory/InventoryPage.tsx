@@ -6,7 +6,7 @@ import { ActivityGraph } from "./ActivityGraph";
 import { StockAlerts } from "./StockAlerts";
 import { RecentInventoryActivity } from "./RecentInventoryActivity";
 import { ProductRadar } from "./ProductRadar";
-import { UsageRadar } from "../Dashboard/UsageRadar";
+import { StockHistogram } from "./StockHistogram";
 
 interface InventoryPageProps {
   isManager: boolean;
@@ -19,7 +19,7 @@ const InventoryPage: React.FC<InventoryPageProps> = ({ isManager }) => {
       {isManager && <ActivityGraph />}
       {isManager && <ProductRadar />}
       {isManager && <StockAlerts />}
-      {isManager && <UsageRadar />}
+      {isManager && <StockHistogram />}
       <RecentInventoryActivity />
     </div>
   );

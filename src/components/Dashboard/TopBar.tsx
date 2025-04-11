@@ -28,7 +28,7 @@ export const TopBar = ({ user }: TopBarProps) => {
       <div className="flex items-center justify-between p-0.5">
         <div>
           <span className="text-sm font-bold block">
-            🚀 Good morning, {user?.username || "Guest"}!
+            Hello, {user?.username || "Guest"}!
           </span>
           <span className="text-xs block text-stone-500">
             {formattedDate} at {formattedTime}

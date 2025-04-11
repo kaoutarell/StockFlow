@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import { Dialog } from "@headlessui/react";
 import { FiX } from "react-icons/fi";
 
-export const CreateAisleForm = ({ onClose }: { onClose: () => void }) => {
+export const CreateBayForm = ({ onClose }: { onClose: () => void }) => {
   const [name, setName] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -15,7 +15,7 @@ export const CreateAisleForm = ({ onClose }: { onClose: () => void }) => {
     setError(null);
 
     try {
-      const response = await fetch("/api/aisles", {
+      const response = await fetch("/api/bays", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -24,16 +24,16 @@ export const CreateAisleForm = ({ onClose }: { onClose: () => void }) => {
       });
 
       if (response.ok) {
-        alert("Aisle created successfully!");
+        alert("Bay created successfully!");
         setName("");
         onClose();
       } else {
         const data = await response.json();
-        setError(data.message || "Failed to create aisle.");
+        setError(data.message || "Failed to create bay.");
       }
     } catch (err) {
-      console.error("Error creating aisle:", err);
-      setError("An error occurred while creating the aisle.");
+      console.error("Error creating bay:", err);
+      setError("An error occurred while creating the bay.");
     } finally {
       setIsLoading(false);
     }
@@ -55,19 +55,17 @@ export const CreateAisleForm = ({ onClose }: { onClose: () => void }) => {
           >
             <FiX size={20} />
           </button>
-
           <Dialog.Title className="text-xl font-bold mb-4 text-[#6B21A8]">
-            Create New Aisle
+            Create New Bay
           </Dialog.Title>
-
           <form onSubmit={handleSubmit} className="space-y-6">
             <div className="flex flex-col">
-              <label className="font-semibold text-gray-700">Aisle Name</label>
+              <label className="font-semibold text-gray-700">Bay Name</label>
               <input
                 type="text"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
-                placeholder="e.g. Aisle 11"
+                placeholder="e.g. Bay 6"
                 className="p-3 border border-[#6B21A8] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#6B21A8]"
                 required
               />
@@ -79,7 +77,7 @@ export const CreateAisleForm = ({ onClose }: { onClose: () => void }) => {
               className="w-full py-3 bg-[#6B21A8] text-white rounded-lg mt-6 hover:bg-[#9D4EDD] focus:outline-none"
               disabled={isLoading}
             >
-              {isLoading ? "Creating..." : "Create Aisle"}
+              {isLoading ? "Creating..." : "Create Bay"}
             </button>
           </form>
         </Dialog.Panel>

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { IconType } from "react-icons";
 import {
-  FiDollarSign,
+  FiMessageSquare,
   FiHome,
   FiPieChart,
   FiBox,
@@ -57,10 +57,10 @@ export const RouteSelect = ({
         onClick={() => handleRouteChange("Analytics")}
       />
       <Route
-        Icon={FiDollarSign}
-        selected={selectedRoute === "Finance"}
-        title="Finance"
-        onClick={() => handleRouteChange("Finance")}
+        Icon={FiMessageSquare}
+        selected={selectedRoute === "Customers Feedback"}
+        title="Customers Feedback"
+        onClick={() => handleRouteChange("Customers Feedback")}
       />
       <Route
         Icon={FiLogOut}

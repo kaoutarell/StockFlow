@@ -1,7 +1,7 @@
 import React from "react";
 import { StatCards } from "./StatCards";
 import { ActivityGraph } from "./ActivityGraph";
-import { UsageRadar } from "./UsageRadar";
+import { EmployerPerformanceRadar } from "./EmployerPerformanceRadar";
 import { RecentTransactions } from "./RecentTransactions";
 
 interface GridProps {
@@ -13,7 +13,7 @@ export const Grid: React.FC<GridProps> = ({ isManager }) => {
     <div className="px-4 grid gap-3 grid-cols-12">
       {isManager && <StatCards />}
       {isManager && <ActivityGraph />}
-      {isManager && <UsageRadar />}
+      {isManager && <EmployerPerformanceRadar />}
       <RecentTransactions />
     </div>
   );

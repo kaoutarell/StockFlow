@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from "react";
 import { Dialog } from "@headlessui/react";
-import { FiPlus } from "react-icons/fi";
+import { FiPlus, FiX } from "react-icons/fi";
 
 interface Aisle {
   _id: string;
@@ -140,7 +140,15 @@ export const CreateItemForm = ({ onClose }: { onClose: () => void }) => {
       className="fixed inset-0 z-50 overflow-y-auto"
     >
       <div className="flex min-h-screen items-center justify-center p-6">
-        <Dialog.Panel className="w-full max-w-lg rounded-2xl bg-white p-8 shadow-2xl">
+        <Dialog.Panel className="w-full max-w-md rounded-2xl bg-white p-8 shadow-2xl relative">
+          {/* Close Icon */}
+          <button
+            onClick={onClose}
+            className="absolute top-4 right-4 text-stone-500 hover:text-stone-800"
+            aria-label="Close"
+          >
+            <FiX size={20} />
+          </button>
           <Dialog.Title className="text-xl font-bold mb-4 text-[#6B21A8]">
             Create New Item
           </Dialog.Title>
