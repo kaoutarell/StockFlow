@@ -53,7 +53,7 @@ export const ProductsTable = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [filteredProducts, setFilteredProducts] = useState(allProducts);
   const [currentPage, setCurrentPage] = useState(1);
-  const productsPerPage = 25;
+  const productsPerPage = 15;
 
   // Filter products based on search query
   const handleSearch = (query: string) => {
