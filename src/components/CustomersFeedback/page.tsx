@@ -3,7 +3,13 @@ import { FiThumbsUp, FiThumbsDown, FiSearch } from "react-icons/fi";
 
 // Sample data for customer feedback
 const generateCustomerFeedbackData = () => {
-  const feedbackData = [];
+  const feedbackData: {
+    customerName: string;
+    product: string;
+    comment: string;
+    appreciation: string; // Change this to string
+  }[] = [];
+
   const firstNames = [
     "John",
     "Jane",
@@ -105,7 +111,7 @@ const generateCustomerFeedbackData = () => {
       customerName: `${randomFirstName} ${randomLastName}`,
       product: productNames[randomIndex],
       comment: feedback.comment,
-      appreciation: feedback.appreciation, // Use the appreciation defined in the feedback phrases
+      appreciation: feedback.appreciation, // Now it's just a string
     });
   }
 
@@ -165,7 +171,7 @@ export const CustomersFeedback = () => {
               customerName={feedback.customerName}
               product={feedback.product}
               comment={feedback.comment}
-              appreciation={feedback.appreciation}
+              appreciation={feedback.appreciation} // 'appreciation' is now a string
               order={index + 1}
             />
           ))}
@@ -219,7 +225,7 @@ const TableRow = ({
   customerName: string;
   product: string;
   comment: string;
-  appreciation: "satisfied" | "unsatisfied";
+  appreciation: string; // appreciation is now a string
   order: number;
 }) => {
   return (
