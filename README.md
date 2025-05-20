@@ -17,8 +17,9 @@ Open http://localhost:3000 in your browser to view the application.
 
 ## Deployment (updated)
 
-[Go to the app 🔗 ](https://stock-flow-seven.vercel.app/)
-This is just a demo version (mainly for the SOEN 357 project demo)
+[Go to the app 🔗](https://stock-flow-seven.vercel.app/)
+
+_This is just a demo version (mainly for the SOEN 357 project demo)_
 
 ## Tags
 
