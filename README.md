@@ -15,9 +15,10 @@ npm run dev
 
 Open http://localhost:3000 in your browser to view the application.
 
-## Deployment
+## Deployment (updated)
 
-Once completed, StockFlow will be deployed on **Vercel**, the optimal platform for Next.js applications.
+[Go to the app 🔗 ](https://stock-flow-seven.vercel.app/)
+This is just a demo version (mainly for the SOEN 357 project demo)
 
 ## Tags
 
